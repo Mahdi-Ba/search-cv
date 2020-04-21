@@ -11,7 +11,7 @@ $ pip install -r requirements.txt
 
 - Copy  talent/settings_sample.py to  talent/settings.py
 ```sh
-$ cp  gpay/settings_sample.py gpay/settings.py
+$ cp  settings_sample.py settings.py
 ```
 - Set DataBase Connection in talent/settings.py
 ```python
@@ -42,9 +42,7 @@ $ python manage.py createsuperuser
 ```sh
 $ python manage.py runserver
 ```
-- If You want more info like rest api request file Such as Postman Contact Us
-sina.saderi@gmail.com
-baharimahdi93@gmail.com
+
 
 License
 ----

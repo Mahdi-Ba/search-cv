@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
+import datetime
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,7 +26,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['www.gpapp.gardeshpay.com', 'gpapp.gardeshpay.com', '127.0.0.1']
 
-BASE_URL = "http://gpapp.gardeshpay.com/"
+BASE_URL = "http://api.talent.com/"
 
 # Application definition
 
@@ -41,28 +41,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'users.apps.UsersConfig',
-    'services.apps.ServicesConfig',
-    'cards.apps.CardsConfig',
-    'wallets.apps.WalletsConfig',
-    'transactions.apps.TransactionsConfig',
-    'charities.apps.CharitiesConfig',
-    'neka.apps.NekaConfig',
-    'banks.apps.BanksConfig',
-    'pages.apps.PagesConfig',
-    'profiles.apps.ProfilesConfig',
     'jalali_date',
-    'creditcards.apps.CreditcardsConfig',
     'ckeditor',
-    'gpayfcm.apps.GpayfcmConfig',
-    'fcm_django',
-    'parsian.apps.ParsianConfig',
-    'loans.apps.LoansConfig',
-    'acceptor.apps.AcceptorConfig',
-    "django_cron",
+    'ckeditor_uploader',
+    'django_json_widget',
 
 ]
-
 AUTH_USER_MODEL = 'users.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -104,12 +90,21 @@ WSGI_APPLICATION = 'talent.wsgi.application'
 #     }
 # }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gpay',
-        'USER': 'laravel',
+        'NAME': 'talent',
+        'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
         'PORT': '3306',
@@ -139,6 +134,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100,
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
@@ -172,17 +169,14 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'none',
     },
 }
 
-FCM_DJANGO_SETTINGS = {
-        "APP_VERBOSE_NAME": "FCM",
-        "FCM_SERVER_KEY": "AAAAH1yD0IY:APA91bHFYjajveMgusOInIMfh3Vln_eqtI3PE33GymvJc6_XMK0otPGqkd0iQ_iEm-Bb_qNdONIjMTtwRJFMa3ij5Z7QwpEFIxS_QygUjqNEYjA1Ns4J8nEDLunu_IO4fEC3gHOzp2hD",
-
-}
 
 JWT_AUTH = {
     # 'JWT_ENCODE_HANDLER':
@@ -208,7 +202,7 @@ JWT_AUTH = {
     #
     #
     # 'JWT_LEEWAY': 0,
-    # 'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
     # 'JWT_AUDIENCE': None,
     # 'JWT_ISSUER': None,
     #
@@ -218,5 +212,5 @@ JWT_AUTH = {
     #
     # 'JWT_AUTH_COOKIE': None,
 
-    'JWT_VERIFY': True,   'JWT_VERIFY_EXPIRATION': False,  'JWT_ALLOW_REFRESH': False, 'JWT_AUTH_HEADER_PREFIX': 'GPAY',
+    'JWT_VERIFY': True,   'JWT_VERIFY_EXPIRATION': False,  'JWT_ALLOW_REFRESH': False, 'JWT_AUTH_HEADER_PREFIX': 'TALENT',
 }

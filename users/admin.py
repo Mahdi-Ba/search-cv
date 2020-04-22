@@ -5,12 +5,15 @@ from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.translation import ugettext_lazy as _
 
 from .models import User
-
+# from django_json_widget.widgets import JSONEditorWidget
+# from jsonfield import JSONField
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     """Define admin model for custom User model with no mobile field."""
-
+    # formfield_overrides = {
+    #     fields.JSONField: {'widget': JSONEditorWidget},
+    # }
     fieldsets = (
         (None, {'fields': ('mobile', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'national_code', 'birth_date')}),

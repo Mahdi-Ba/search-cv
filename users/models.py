@@ -1,3 +1,5 @@
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import AbstractUser, BaseUserManager, Group
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -51,6 +53,9 @@ class User(AbstractUser):
     expire_pass = models.BooleanField(default=True)
     file = models.FileField(upload_to='users/',blank=True, null=True)
     # attrs = JSONField(null=True, blank=True)
+    # content = RichTextField( blank=True, null=True)
+    # content = RichTextUploadingField( blank=True, null=True)
+
 
     USERNAME_FIELD = 'mobile'
     REQUIRED_FIELDS = []

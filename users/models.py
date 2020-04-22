@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager, Group
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from jsonfield import JSONField
 
 
 
@@ -49,7 +50,7 @@ class User(AbstractUser):
     say_hi = models.BooleanField(default=False)
     expire_pass = models.BooleanField(default=True)
     file = models.FileField(upload_to='users/',blank=True, null=True)
-
+    # attrs = JSONField(null=True, blank=True)
 
     USERNAME_FIELD = 'mobile'
     REQUIRED_FIELDS = []

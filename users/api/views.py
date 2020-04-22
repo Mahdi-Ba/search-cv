@@ -39,6 +39,7 @@ class NewPasswd(APIView):
         import kavenegar
         import json
         api_key = "4C48474D77574C4C385A7A737A48344B356A6B69726B6543717741396B32527A626C6D34774F654E5550633D"
+
         api = kavenegar.KavenegarAPI(api_key)
 
         new_pass = random.randint(11111, 99999)
@@ -50,6 +51,15 @@ class NewPasswd(APIView):
 
         response = api.sms_send(params)
 
+        params = {
+            'receptor':  request.POST['mobile'],
+            'template': 'test',
+            'token': new_pass,
+            'type': 'sms',
+        }
+
+        response = api.verify_lookup(params)
+
         # sms = SmsNotify()
         # status =sms.send(text=new_pass, receiver_number=request.POST['mobile'])
         if User.objects.filter(mobile=request.POST['mobile']):
@@ -59,7 +69,7 @@ class NewPasswd(APIView):
             u.save()
         else:
             user = User.objects.create_user(request.POST['mobile'], new_pass)
-            re = user.save();
+            re = user.save()
         content = {"status": True}
 
         # content = {'new pass': new_pass}
@@ -185,13 +195,13 @@ class userInfo(APIView):
     def get(self, request):
         user = request.user
         content = {
+                "attrs":user.attrs,
                 "mobile": user.mobile,
                 "first_name": user.first_name,
                 "last_name": user.last_name,
                 "full_name": user.first_name + ' ' + user.last_name,
                 "national_code": user.national_code,
                 "birth_date": user.birth_date,
-                "max_amount": user.groups.values_list('max_amount',flat = True) or 10000000
             }
         return Response(content)
 

@@ -1,6 +1,7 @@
 import base64
 import uuid
 
+from .serializers import UserSerializer
 from ..models import User
 from . import serializers
 from rest_framework import generics, status
@@ -145,15 +146,16 @@ class CustomAuthToken(ObtainJSONWebToken):
                                 'data': req},
                                 status=status.HTTP_403_FORBIDDEN)
 
-            # make token from user found by email
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
             user = UserSerializer(user).data
 
-        u = User.objects.get(pk=user['user_id'])
-        if u.expire_pass:
-            u.set_password(User.objects.make_random_password())
-            u.save()
+
+
+            u = User.objects.get(pk=user['user_id'])
+            if u.expire_pass:
+                u.set_password(User.objects.make_random_password())
+                u.save()
 
 
         return Response({'success': True,

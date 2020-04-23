@@ -50,7 +50,7 @@ class User(AbstractUser):
     national_code = models.CharField(max_length=20, blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
     expire_pass = models.BooleanField(default=True)
-    file = models.FileField(upload_to='users/',blank=True, null=True)
+    file = models.ImageField(upload_to='users/',blank=True, null=True)
     # attrs = JSONField(null=True, blank=True)
     # content = RichTextField( blank=True, null=True)
     # content = RichTextUploadingField( blank=True, null=True)

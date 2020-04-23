@@ -20,13 +20,14 @@ from rest_framework.authtoken.views import ObtainAuthToken
 
 from rest_framework_jwt.settings import api_settings
 from rest_framework_jwt.views import obtain_jwt_token, ObtainJSONWebToken
+
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 jwt_decode_handler = api_settings.JWT_DECODE_HANDLER
 from django.core.files.base import ContentFile
 
 from rest_framework.authtoken.models import Token
-import jwt,json
+import jwt, json
 
 
 class UserListView(generics.ListAPIView):
@@ -34,7 +35,8 @@ class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
 
-@permission_classes((AllowAny, ))
+
+@permission_classes((AllowAny,))
 class NewPasswd(APIView):
     def post(self, request):
         import kavenegar
@@ -46,14 +48,14 @@ class NewPasswd(APIView):
         new_pass = random.randint(11111, 99999)
 
         params = {
-                'receptor': request.POST['mobile'],
-                'message': "تلنتو " + "\n" + "رمز عبور: " + str(new_pass),
-            }
+            'receptor': request.POST['mobile'],
+            'message': "تلنتو " + "\n" + "رمز عبور: " + str(new_pass),
+        }
 
         response = api.sms_send(params)
 
         params = {
-            'receptor':  request.POST['mobile'],
+            'receptor': request.POST['mobile'],
             'template': 'test',
             'token': new_pass,
             'type': 'sms',
@@ -77,34 +79,28 @@ class NewPasswd(APIView):
         return Response(content)
 
 
-@permission_classes((AllowAny, ))
+@permission_classes((AllowAny,))
 class WhichPasswd(APIView):
     def post(self, request):
         if User.objects.filter(mobile=request.POST['mobile']):
             u = User.objects.get(mobile=request.POST['mobile'])
-            return Response({"status":True,"otp":u.expire_pass})
+            return Response({"status": True, "otp": u.expire_pass})
         else:
-          return Response({"status": True,"otp":True})
-
-
+            return Response({"status": True, "otp": True})
 
 
 class SetPasswd(APIView):
     def post(self, request):
-            if request.data['password'] == request.data['password_confirm']:
-                request.user.set_password(request.data['password'])
-                request.user.expire_pass = False
-                request.user.save()
-                return Response({'success': True, 'message': "password change correctly"})
-            else:
-                return Response({'success': False,
-                                 'message': 'Password and password_confirm not match',
-                                 'data': request.data},
-                                status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
+        if request.data['password'] == request.data['password_confirm']:
+            request.user.set_password(request.data['password'])
+            request.user.expire_pass = False
+            request.user.save()
+            return Response({'success': True, 'message': "password change correctly"})
+        else:
+            return Response({'success': False,
+                             'message': 'Password and password_confirm not match',
+                             'data': request.data},
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -128,53 +124,48 @@ class CustomAuthToken(ObtainJSONWebToken):
 
             if mobile is None or password is None:
                 return Response({'success': False,
-                                'message': 'Missing or incorrect credentials',
-                                'data': req},
+                                 'message': 'Missing or incorrect credentials',
+                                 'data': req},
                                 status=status.HTTP_400_BAD_REQUEST)
 
             try:
                 user = User.objects.get(mobile=mobile)
             except:
                 return Response({'success': False,
-                                'message': 'User not found',
-                                'data': req},
+                                 'message': 'User not found',
+                                 'data': req},
                                 status=status.HTTP_404_NOT_FOUND)
 
             if not user.check_password(password):
                 return Response({'success': False,
-                                'message': 'Incorrect password',
-                                'data': req},
+                                 'message': 'Incorrect password',
+                                 'data': req},
                                 status=status.HTTP_403_FORBIDDEN)
 
             payload = jwt_payload_handler(user)
             token = jwt_encode_handler(payload)
             user = UserSerializer(user).data
 
-
-
         u = User.objects.get(pk=user['user_id'])
         if u.expire_pass:
             u.set_password(User.objects.make_random_password())
             u.save()
 
-
         return Response({'success': True,
-                        "token": token,
-                        'expire_pass': u.expire_pass,
-                        'user_id': u.pk,
-                        'mobile': u.mobile,
-                        "first_name": u.first_name,
-                        "last_name": u.last_name,
-                        "full_name": u.first_name+' '+u.last_name,
-                        "national_code": u.national_code,
-                        "birth_date": u.birth_date,
-                        "user": user
+                         "token": token,
+                         'expire_pass': u.expire_pass,
+                         'user_id': u.pk,
+                         'mobile': u.mobile,
+                         "first_name": u.first_name,
+                         "last_name": u.last_name,
+                         "full_name": u.first_name + ' ' + u.last_name,
+                         "national_code": u.national_code,
+                         "birth_date": u.birth_date,
+                         "user": user,
+                         "file": str(u.file),
 
-                        },
+                         },
                         status=status.HTTP_200_OK)
-
-
-
 
         # serializer = self.serializer_class(data=request.data,
         #                                    context={'request': request})
@@ -193,23 +184,27 @@ class CustomAuthToken(ObtainJSONWebToken):
         #     "max_amount": user.groups.values_list('max_amount',flat = True) or 10000000
         # })
 
+
 class userInfo(APIView):
     def get(self, request):
         user = request.user
         content = {
-                "mobile": user.mobile,
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "full_name": user.first_name + ' ' + user.last_name,
-                "national_code": user.national_code,
-                "birth_date": user.birth_date,
-            }
+            "mobile": user.mobile,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "full_name": user.first_name + ' ' + user.last_name,
+            "national_code": user.national_code,
+            "birth_date": user.birth_date,
+            "file": str(user.file),
+        }
         return Response(content)
+
 
 class UserDetail(APIView):
     """
     Retrieve, update or delete a user instance.
     """
+
     def get_object(self, pk):
         try:
             return User.objects.get(pk=pk)
@@ -221,10 +216,10 @@ class UserDetail(APIView):
         serializer = serializers.UserSerializer(user)
         return Response(serializer.data)
 
-    def put(self, request, pk = 0, format=None):
+    def put(self, request, pk=0, format=None):
         # user = self.get_object(pk)
         user = request.user
-        if request.data.get('file',False):
+        if request.data.get('file', False):
             base64_file = request.data.pop('file')
             format, imgstr = base64_file.split(';base64,')
             ext = format.split('/')[-1]
@@ -244,7 +239,6 @@ class UserDetail(APIView):
         user = self.get_object(pk)
         user.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
 
 # class UserUpdateAPIView(generics.CreateAPIView):
 
@@ -274,4 +268,3 @@ class UserDetail(APIView):
 
 #         content = {'User data updated': "ok"}
 #         return Response(content)
-

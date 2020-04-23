@@ -152,10 +152,10 @@ class CustomAuthToken(ObtainJSONWebToken):
 
 
 
-            u = User.objects.get(pk=user['user_id'])
-            if u.expire_pass:
-                u.set_password(User.objects.make_random_password())
-                u.save()
+        u = User.objects.get(pk=user['user_id'])
+        if u.expire_pass:
+            u.set_password(User.objects.make_random_password())
+            u.save()
 
 
         return Response({'success': True,
@@ -197,7 +197,6 @@ class userInfo(APIView):
     def get(self, request):
         user = request.user
         content = {
-                "attrs":user.attrs,
                 "mobile": user.mobile,
                 "first_name": user.first_name,
                 "last_name": user.last_name,

@@ -49,7 +49,6 @@ class User(AbstractUser):
     mobile = models.CharField(db_index=True, max_length=32, unique=True)
     national_code = models.CharField(max_length=20, blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
-    say_hi = models.BooleanField(default=False)
     expire_pass = models.BooleanField(default=True)
     file = models.FileField(upload_to='users/',blank=True, null=True)
     # attrs = JSONField(null=True, blank=True)

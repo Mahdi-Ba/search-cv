@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
     national_code = serializers.CharField(max_length=200, required=False)
     birth_date = serializers.DateField(required=False)
     mobile = serializers.CharField(read_only=False, required=False)
-    file = serializers.FileField(required=False)
+    file = serializers.ImageField(required=False)
     # attrs = serializers.JSONField(required=False)
 
     

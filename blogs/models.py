@@ -78,3 +78,22 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+# from elasticsearch import Elasticsearch
+# @receiver(post_save, sender=Article)
+# def update_stock(sender, instance, **kwargs):
+#     elastic_host = {"host": "localhost", "port": 9200}
+#     es = Elasticsearch(hosts=[elastic_host])
+    # myBook = {
+    #     "author": "sina",
+    #     "price": "45.00",
+    #     "name": "DjangoForWebDevelopers",}
+    # es.index(index='books', doc_type='book', id=1, body=myBook)
+    # book_result_query = es.search(index='books',doc_type='book', body={'query': {'match': {'author': 'sina'}}})
+    # print(book_result_query)
+    #
+    #
+

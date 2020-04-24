@@ -154,15 +154,16 @@ class CustomAuthToken(ObtainJSONWebToken):
         return Response({'success': True,
                          "token": token,
                          'expire_pass': u.expire_pass,
-                         'user_id': u.pk,
+                         # 'user_id': u.pk,
                          'mobile': u.mobile,
+                         'username': u.mobile,
                          "first_name": u.first_name,
                          "last_name": u.last_name,
-                         "full_name": u.first_name + ' ' + u.last_name,
                          "national_code": u.national_code,
                          "birth_date": u.birth_date,
-                         "user": user,
+                         # "user": user,
                          "file": str(u.file),
+                         "email":u.email,
 
                          },
                         status=status.HTTP_200_OK)
@@ -196,6 +197,7 @@ class userInfo(APIView):
             "national_code": user.national_code,
             "birth_date": user.birth_date,
             "file": str(user.file),
+            "email":user.email,
         }
         return Response(content)
 

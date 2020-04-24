@@ -10,12 +10,13 @@ class UserSerializer(serializers.ModelSerializer):
     birth_date = serializers.DateField(required=False)
     mobile = serializers.CharField(read_only=False, required=False)
     file = serializers.ImageField(required=False)
+    email = serializers.EmailField(required=False)
     # attrs = serializers.JSONField(required=False)
 
     
     class Meta:
         model = User
-        fields = ['mobile', 'first_name', 'last_name', 'full_name', 'national_code', 'password', 'birth_date','file']
+        fields = ['mobile', 'first_name', 'last_name', 'full_name', 'national_code', 'password', 'birth_date','file','email']
         # fields = '__all__'
 
     def get_fullname(self, instance):
@@ -33,6 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.national_code = validated_data.get('national_code', instance.national_code) if validated_data.get('national_code') is not None else instance.national_code
         instance.birth_date = validated_data.get('birth_date', instance.birth_date) if validated_data.get('birth_date') is not None else instance.birth_date
         instance.file = validated_data.get('file', instance.file) if validated_data.get('file') is not None else instance.file
+        instance.email = validated_data.get('email', instance.email) if validated_data.get('email') is not None else instance.email
         # instance.attrs = validated_data.get('attrs', instance.attrs)
         instance.save()
         return instance

@@ -16,7 +16,7 @@ class UserAdmin(DjangoUserAdmin):
     # }
     fieldsets = (
         (None, {'fields': ('mobile', 'password')}),
-        (_('Personal info'), {'fields': ('first_name', 'last_name', 'national_code', 'birth_date')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name','email', 'national_code', 'birth_date')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
                                        'groups', 'user_permissions')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
@@ -27,6 +27,6 @@ class UserAdmin(DjangoUserAdmin):
             'fields': ('mobile', 'password1', 'password2'),
         }),
     )
-    list_display = ('mobile', 'first_name', 'last_name', 'is_staff')
-    search_fields = ('mobile', 'first_name', 'last_name')
+    list_display = ('mobile', 'first_name', 'last_name','email', 'is_staff')
+    search_fields = ('mobile', 'first_name', 'last_name','email')
     ordering = ('mobile',)

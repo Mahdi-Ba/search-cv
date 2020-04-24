@@ -4,6 +4,7 @@ chardet==3.0.4
 Django==2.2
 django-admin==2.0.1
 django-ckeditor==5.9.0
+django-elasticsearch-dsl==7.1.1
 django-excel-base==1.0.4
 django-excel-response2==3.0.2
 django-filer==1.7.0
@@ -11,6 +12,7 @@ django-jalali-date-3==0.2.1
 django-js-asset==1.2.2
 django-json-widget==1.0.1
 django-mptt==0.11.0
+django-nine==0.2.3
 django-polymorphic==2.1.2
 django-six==1.0.4
 django-templated-mail==1.1.1
@@ -18,6 +20,7 @@ djangorestframework==3.11.0
 djangorestframework-jwt==1.11.0
 djoser==2.0.3
 easy-thumbnails==2.7
+elasticsearch==7.6.0
 future==0.18.2
 idna==2.9
 jdatetime==3.6.2
@@ -26,6 +29,7 @@ kavenegar==1.1.2
 mysqlclient==1.4.6
 Pillow==7.1.1
 PyJWT==1.7.1
+python-dateutil==2.8.1
 pytz==2019.3
 requests==2.23.0
 screen==1.0.1

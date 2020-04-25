@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django_json_widget',
+    'blogs',
+    'prerequisites',
 
 ]
 AUTH_USER_MODEL = 'users.User'

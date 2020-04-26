@@ -134,7 +134,7 @@ class SkillLevelAdmin(admin.ModelAdmin):
 
 
 @admin.register(ExperinceYears)
-class ExperinceYearsAdmin(admin.ModelAdmin):
+class ExperinceYearAdmin(admin.ModelAdmin):
     list_display = ['title', 'en_title', 'user', 'sort', 'status', 'updated_at']
     search_fields = ['title', 'en_title']
     readonly_fields = ['user']

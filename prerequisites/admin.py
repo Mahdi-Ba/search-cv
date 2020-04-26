@@ -1,8 +1,10 @@
 from django.contrib import admin
 
 # Register your models here.
-from prerequisites.models import Status, Ability, Province, City, Grade, Major
-
+from prerequisites.models import Status, Ability, Province, City, Grade, Major, SocialMedia, Military, Language, \
+    SkillLevel, ExperinceYears, OrganizationSize, BenefitsJob, Univercity
+from django_json_widget.widgets import JSONEditorWidget
+from jsonfield import JSONField
 
 @admin.register(Status)
 class StatusAdmin(admin.ModelAdmin):
@@ -73,3 +75,113 @@ class MajorAdmin(admin.ModelAdmin):
         obj.user = request.user
         super().save_model(request, obj, form, change)
 
+
+
+@admin.register(SocialMedia)
+class SocialMediaAdmin(admin.ModelAdmin):
+    list_display = ['title', 'en_title', 'user', 'sort', 'status', 'updated_at']
+    search_fields = ['title', 'en_title']
+    readonly_fields = ['user']
+    list_filter = ['status']
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+
+
+@admin.register(Military)
+class MilitaryAdmin(admin.ModelAdmin):
+    list_display = ['title', 'en_title', 'user', 'sort', 'status', 'updated_at']
+    search_fields = ['title', 'en_title']
+    readonly_fields = ['user']
+    list_filter = ['status']
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+@admin.register(Language)
+class LanguageAdmin(admin.ModelAdmin):
+    list_display = ['title', 'en_title', 'user', 'sort', 'status', 'updated_at']
+    search_fields = ['title', 'en_title']
+    readonly_fields = ['user']
+    list_filter = ['status']
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+
+
+
+
+@admin.register(SkillLevel)
+class SkillLevelAdmin(admin.ModelAdmin):
+    list_display = ['title', 'en_title', 'user', 'sort','level', 'status', 'updated_at']
+    search_fields = ['title', 'en_title']
+    readonly_fields = ['user']
+    list_filter = ['status']
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+
+
+@admin.register(ExperinceYears)
+class ExperinceYearsAdmin(admin.ModelAdmin):
+    list_display = ['title', 'en_title', 'user', 'sort', 'status', 'updated_at']
+    search_fields = ['title', 'en_title']
+    readonly_fields = ['user']
+    list_filter = ['status']
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+
+@admin.register(OrganizationSize)
+class OrganizationSizeAdmin(admin.ModelAdmin):
+    list_display = ['title', 'en_title', 'user', 'sort', 'status', 'updated_at']
+    search_fields = ['title', 'en_title']
+    readonly_fields = ['user']
+    list_filter = ['status']
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+
+@admin.register(BenefitsJob)
+class BenefitsJobAdmin(admin.ModelAdmin):
+    list_display = ['title', 'en_title', 'user', 'sort', 'status', 'updated_at']
+    search_fields = ['title', 'en_title']
+    readonly_fields = ['user']
+    list_filter = ['status']
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+
+@admin.register(Univercity)
+class UnivercityAdmin(admin.ModelAdmin):
+    list_display = ['title', 'en_title', 'user', 'status', 'updated_at']
+    search_fields = ['title', 'en_title']
+    readonly_fields = ['user']
+    list_filter = ['status',]
+    autocomplete_fields = ['city','province']
+    formfield_overrides = {
+        JSONField: {'widget': JSONEditorWidget},
+    }
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        super().save_model(request, obj, form, change)

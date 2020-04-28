@@ -19,14 +19,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4!cb*uh(%ktva@^3zjbb-n*xza_46t#1br6!juhx_wt@pu(sqm'
+SECRET_KEY = '4*fc4#h*=i85fw06v(icph6cs(y)65^z@cug)e8c)_p6)^x4uf'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.gpapp.gardeshpay.com', 'gpapp.gardeshpay.com', '127.0.0.1']
+ALLOWED_HOSTS = ['www.talent.com', 'talent.com', '127.0.0.1','185.97.119.108']
 
-BASE_URL = "http://api.talent.com/"
+
+BASE_URL = "http://talent.com/"
 
 # Application definition
 
@@ -47,6 +48,7 @@ INSTALLED_APPS = [
     'django_json_widget',
     'blogs',
     'prerequisites',
+    'companies'
 
 ]
 AUTH_USER_MODEL = 'users.User'
@@ -105,10 +107,10 @@ CACHES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'talent',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '127.0.0.1',  # Or an IP Address that your DB is hosted on
+        'NAME': 'webdb',
+        'USER': 'webuser',
+        'PASSWORD': 'xz2Iv5L_0o3q5DAWOaxda',
+        'HOST': 'localhost',  # Or an IP Address that your DB is hosted on
         'PORT': '3306',
         'OPTIONS': {
             # Tell MySQLdb to connect with 'utf8mb4' character set
@@ -116,6 +118,8 @@ DATABASES = {
         },
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

@@ -8,7 +8,7 @@ from users.models import User
 
 
 class Status(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255,unique=True)
 
     def __str__(self):
         return self.title
@@ -16,8 +16,8 @@ class Status(models.Model):
 
 class Ability(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     sort = models.BigIntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -32,8 +32,8 @@ class Ability(models.Model):
 
 class Province(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     text = RichTextUploadingField(blank=True, null=True)
     sort = models.BigIntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
@@ -51,8 +51,8 @@ class Province(models.Model):
 class City(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     province = models.ForeignKey(Province, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     text = RichTextUploadingField(blank=True, null=True)
     sort = models.BigIntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
@@ -69,8 +69,8 @@ class City(models.Model):
 
 class Grade(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     text = RichTextUploadingField(blank=True, null=True)
     sort = models.BigIntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
@@ -87,8 +87,8 @@ class Grade(models.Model):
 
 class Major(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     text = RichTextUploadingField(blank=True, null=True)
     sort = models.BigIntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
@@ -105,8 +105,8 @@ class Major(models.Model):
 
 class SocialMedia(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     sort = models.IntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -122,8 +122,8 @@ class SocialMedia(models.Model):
 
 class Military(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     sort = models.IntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -139,8 +139,8 @@ class Military(models.Model):
 
 class Language(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     sort = models.IntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -158,8 +158,8 @@ class Language(models.Model):
 
 class SkillLevel(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     sort = models.IntegerField(null=True, blank=True)
     level = models.IntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
@@ -177,8 +177,8 @@ class SkillLevel(models.Model):
 
 class ExperinceYears(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     sort = models.IntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -196,8 +196,8 @@ class ExperinceYears(models.Model):
 
 class OrganizationSize(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     sort = models.IntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -215,8 +215,8 @@ class OrganizationSize(models.Model):
 
 class BenefitsJob(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     sort = models.IntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -233,8 +233,8 @@ class BenefitsJob(models.Model):
 
 class University(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     text = RichTextUploadingField(blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     location = JSONField(null=True, blank=True)
@@ -260,8 +260,8 @@ class University(models.Model):
 
 class WorkingArea(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     text = RichTextUploadingField(blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -277,6 +277,59 @@ class WorkingArea(models.Model):
     def __str__(self):
         return self.title
 
+
+
+
+class LanguageSkill(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    level =  models.IntegerField(null=True, blank=True)
+    status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    sort = models.IntegerField(null=True, blank=True)
+
+
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.now()
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+
+class Gender(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    sort = models.IntegerField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.now()
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+class MaritalStatus(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    sort = models.IntegerField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.now()
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
 
 
 

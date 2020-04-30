@@ -7,17 +7,17 @@ from users.models import User
 
 
 class Status(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=255,unique=True)
 
     def __str__(self):
         return self.title
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     text = RichTextUploadingField(blank=True, null=True)
     keywords = models.CharField(max_length=255, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
@@ -36,8 +36,8 @@ class Category(models.Model):
 
 class Tag(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     text = RichTextUploadingField(blank=True, null=True)
     sort = models.BigIntegerField(null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
@@ -55,8 +55,8 @@ class Tag(models.Model):
 class Article(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
-    en_title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     text = RichTextUploadingField(blank=True, null=True)
     keywords = models.CharField(max_length=255, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
@@ -87,13 +87,14 @@ class Article(models.Model):
 # def update_stock(sender, instance, **kwargs):
 #     elastic_host = {"host": "localhost", "port": 9200}
 #     es = Elasticsearch(hosts=[elastic_host])
-    # myBook = {
-    #     "author": "sina",
-    #     "price": "45.00",
-    #     "name": "DjangoForWebDevelopers",}
-    # es.index(index='books', doc_type='book', id=1, body=myBook)
-    # book_result_query = es.search(index='books',doc_type='book', body={'query': {'match': {'author': 'sina'}}})
-    # print(book_result_query)
-    #
-    #
+# myBook = {
+#     "author": "sina",
+#     "price": "45.00",
+#     "name": "DjangoForWebDevelopers",}
+# es.index(index='books', doc_type='book', id=1, body=myBook)
+# book_result_query = es.search(index='books',doc_type='book', body={'query': {'match': {'author': 'sina'}}})
+# print(book_result_query)
+#
+#
+
 

@@ -61,7 +61,7 @@ class Article(models.Model):
     keywords = models.CharField(max_length=255, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
-    visit = models.BigIntegerField(null=True, blank=True)
+    visit = models.BigIntegerField(null=True, blank=True,default=0)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now_add=True)
     index = models.BooleanField(default=False)

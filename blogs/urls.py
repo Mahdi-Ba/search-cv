@@ -16,6 +16,9 @@ urlpatterns = [
     path('articles', views.Articles.as_view()),
     path('articles/detail/<int:pk>/<slug:slug>', views.ArticlesDetail.as_view()),
 
+    path('articles/tag/<int:pk>/<slug:slug>', views.ArticleTagsSearch.as_view()),
+    path('articles/category/<int:pk>/<slug:slug>', views.ArticleCategorysSearch.as_view()),
+
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

@@ -52,6 +52,7 @@ class BrifArticleSerilizer(serializers.ModelSerializer):
 class ArticleSerilizer(serializers.ModelSerializer):
     slug = serializers.SerializerMethodField(source='en_title')
     tag = TagSerilizer(many=True)
+    category = CategorySerilizer()
     next_article = BrifArticleSerilizer()
     prev_article = BrifArticleSerilizer()
 

@@ -218,6 +218,7 @@ class BenefitsJob(models.Model):
     title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
     sort = models.IntegerField(null=True, blank=True)
+    text = RichTextUploadingField(blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now_add=True)

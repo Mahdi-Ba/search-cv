@@ -100,6 +100,14 @@ class SocialMediaList(APIView):
         socila_serlizer = SocialMediaSerilizer(socila, many=True)
         return Response(socila_serlizer.data)
 
+
+class JobTimeList(APIView):
+    def get(self, request, format=None):
+        job_time = JobTime.objects.all()
+        job_time_serlizer = JobTimeSerilizer(job_time, many=True)
+        return Response(job_time_serlizer.data)
+
+
 # class CategoriesDetail(APIView):
 #     def get_object(self, pk):
 #         try:

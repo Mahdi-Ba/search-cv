@@ -16,6 +16,7 @@ urlpatterns = [
     path('job/skill/level', views.JobSkillList.as_view()),
     path('grade/', views.GradeList.as_view()),
     path('socialmedia/', views.SocialMediaList.as_view()),
+    path('jobt/time', views.JobTimeList.as_view()),
 
     # path('category/detail/<int:pk>/<slug:slug>', views.CategoriesDetail.as_view()),
 

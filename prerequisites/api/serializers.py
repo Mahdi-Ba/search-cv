@@ -68,3 +68,8 @@ class SocialMediaSerilizer(serializers.ModelSerializer):
     class Meta:
         model = SocialMedia
         fields = '__all__'
+
+class JobTimeSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = JobTime
+        fields = '__all__'

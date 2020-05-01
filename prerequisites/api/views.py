@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from ..models import *
+from django.db.models import Q
 
 
 class GenderList(APIView):
@@ -25,6 +26,12 @@ class LanguageList(APIView):
         language_serlizer = LanguageSerilizer(language, many=True)
         return Response(language_serlizer.data)
 
+    def post(self, request, format=None):
+        language = Language.objects.filter(
+            Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item'])).all()
+        language_serlizer = LanguageSerilizer(language, many=True)
+        return Response(language_serlizer.data)
+
 
 class ProvincelList(APIView):
     def get(self, request, format=None):
@@ -32,10 +39,22 @@ class ProvincelList(APIView):
         province_serlizer = ProvinceSerilizer(province, many=True)
         return Response(province_serlizer.data)
 
+    def post(self, request, format=None):
+        province = Province.objects.filter(
+            Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item'])).all()
+        province_serlizer = ProvinceSerilizer(province, many=True)
+        return Response(province_serlizer.data)
+
 
 class CitylList(APIView):
     def get(self, request, pk, format=None):
         city = City.objects.filter(province=pk).all()
+        city_serlizer = CitySerilizer(city, many=True)
+        return Response(city_serlizer.data)
+
+    def post(self, request, pk, format=None):
+        city = City.objects.filter(
+            Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item']), province=pk).all()
         city_serlizer = CitySerilizer(city, many=True)
         return Response(city_serlizer.data)
 

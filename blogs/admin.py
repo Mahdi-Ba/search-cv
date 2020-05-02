@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Status, Category, Tag, Article
+from .models import Status, Category, Tag, Article, SearchLog
 
 
 @admin.register(Status)
@@ -44,3 +44,21 @@ class ArticleAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.user = request.user
         super().save_model(request, obj, form, change)
+
+
+@admin.register(SearchLog)
+class SearchLogAdmin(admin.ModelAdmin):
+    list_display = ['title', 'created_at', 'user']
+    search_fields = ['user']
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request,obj=None):
+        return False
+
+    def has_delete_permission(self, request,obj=None):
+        return False
+
+
+

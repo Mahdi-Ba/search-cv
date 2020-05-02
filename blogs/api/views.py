@@ -6,6 +6,11 @@ from rest_framework.response import Response
 # from .serializers import Page, PageSerializer, PageContentSerializer
 from .serializers import CategorySerilizer, TagSerilizer, ArticleSerilizer
 from ..models import Article, Category, Tag, SearchLog
+from rest_framework.pagination import PageNumberPagination
+from talent.pagination import PaginationHandlerMixin
+
+class BasicPagination(PageNumberPagination):
+    page_size_query_param = 'limit'
 
 
 class Categories(APIView):
@@ -49,12 +54,15 @@ class TagsDetail(APIView):
 
 
 class Articles(APIView):
+    pagination_class = BasicPagination
+
     def get(self, request, format=None):
         articles = Article.objects.all()
         articles_serlizer = ArticleSerilizer(articles, many=True)
         return Response(articles_serlizer.data)
 
     def post(self, request, format=None):
+        SearchLog.objects.create(user=request.user,title=request.data['item'])
         articles = Article.objects.filter(Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item'])).all()
         articles_serlizer = ArticleSerilizer(articles, many=True)
         return Response(articles_serlizer.data)

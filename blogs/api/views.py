@@ -53,18 +53,26 @@ class TagsDetail(APIView):
         return Response(serializer.data)
 
 
-class Articles(APIView):
+class Articles(APIView,PaginationHandlerMixin):
     pagination_class = BasicPagination
 
     def get(self, request, format=None):
         articles = Article.objects.all()
-        articles_serlizer = ArticleSerilizer(articles, many=True)
+        page = self.paginate_queryset(articles)
+        if page is not None:
+            articles_serlizer = self.get_paginated_response(ArticleSerilizer(page,many=True).data)
+        else:
+            articles_serlizer = ArticleSerilizer(articles, many=True)
         return Response(articles_serlizer.data)
 
     def post(self, request, format=None):
         SearchLog.objects.create(user=request.user,title=request.data['item'])
         articles = Article.objects.filter(Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item'])).all()
-        articles_serlizer = ArticleSerilizer(articles, many=True)
+        page = self.paginate_queryset(articles)
+        if page is not None:
+            articles_serlizer = self.get_paginated_response(ArticleSerilizer(page, many=True).data)
+        else:
+            articles_serlizer = ArticleSerilizer(articles, many=True)
         return Response(articles_serlizer.data)
 
 

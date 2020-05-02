@@ -1,4 +1,5 @@
 from django.http import Http404
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
@@ -106,6 +107,123 @@ class JobTimeList(APIView):
         job_time = JobTime.objects.all()
         job_time_serlizer = JobTimeSerilizer(job_time, many=True)
         return Response(job_time_serlizer.data)
+
+
+
+
+class AbilityStore(APIView):
+    def post(self, request, format=None):
+        ability = AbilitySerilizer(data=request.data)
+        if ability.is_valid():
+            ability.save(user=request.user)
+            return Response(ability.data, status=status.HTTP_200_OK)
+        return Response(ability.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class AbilityList(APIView):
+    def post(self, request, format=None):
+        ability = Ability.objects.filter(
+            Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item'])).all()[:14]
+        ability_serlizer = AbilitySerilizer(ability, many=True)
+        return Response(ability_serlizer.data)
+
+    def get(self,request,pk,format=None):
+        ability = Ability.objects.get(pk=pk)
+        ability_serlizer = AbilityDetailSerilizer(ability, many=False)
+        return Response(ability_serlizer.data)
+
+
+
+
+class MajorStore(APIView):
+    def post(self, request, format=None):
+        major = MajorSerilizer(data=request.data)
+        if major.is_valid():
+            major.save(user=request.user)
+            return Response(major.data, status=status.HTTP_200_OK)
+        return Response(major.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class MajorList(APIView):
+    def post(self, request, format=None):
+        major = Major.objects.filter(
+            Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item'])).all()[:14]
+        major_serlizer = MajorSerilizer(major, many=True)
+        return Response(major_serlizer.data)
+
+    def get(self,request,pk,format=None):
+        major = Major.objects.get(pk=pk)
+        major_serlizer = MajorDetailSerilizer(major, many=False)
+        return Response(major_serlizer.data)
+
+
+
+
+
+
+class UniversityStore(APIView):
+    def post(self, request, format=None):
+        university = UniversitySerilizer(data=request.data)
+        if university.is_valid():
+            university.save(user=request.user)
+            return Response(university.data, status=status.HTTP_200_OK)
+        return Response(university.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class UniversityList(APIView):
+    def post(self, request, format=None):
+        university = University.objects.filter(
+            Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item'])).all()[:14]
+        university_serlizer = UniversitySerilizer(university, many=True)
+        return Response(university_serlizer.data)
+
+    def get(self,request,pk,format=None):
+        university = University.objects.get(pk=pk)
+        university_serlizer = UniversityDetailSerilizer(university, many=False)
+        return Response(university_serlizer.data)
+
+
+
+
+
+class WorkingAreaStore(APIView):
+    def post(self, request, format=None):
+        workingarea = WorkingAreaSerilizer(data=request.data)
+        if workingarea.is_valid():
+            workingarea.save(user=request.user)
+            return Response(workingarea.data, status=status.HTTP_200_OK)
+        return Response(workingarea.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class WorkingAreaList(APIView):
+    def post(self, request, format=None):
+        workingarea = WorkingArea.objects.filter(
+            Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item'])).all()[:14]
+        workingarea_serlizer = WorkingAreaSerilizer(workingarea, many=True)
+        return Response(workingarea_serlizer.data)
+
+    def get(self,request,pk,format=None):
+        workingarea = WorkingArea.objects.get(pk=pk)
+        workingarea_serlizer = WorkingAreaDetailSerilizer(workingarea, many=False)
+        return Response(workingarea_serlizer.data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # class CategoriesDetail(APIView):

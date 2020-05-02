@@ -69,7 +69,109 @@ class SocialMediaSerilizer(serializers.ModelSerializer):
         model = SocialMedia
         fields = '__all__'
 
+
 class JobTimeSerilizer(serializers.ModelSerializer):
     class Meta:
         model = JobTime
         fields = '__all__'
+
+class AbilityDetailSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Ability
+        fields = '__all__'
+
+
+class AbilitySerilizer(serializers.ModelSerializer):
+    title = serializers.CharField(allow_blank=False, allow_null=False,required=True)
+    # user = serializers.CharField(required=False)
+
+    class Meta:
+        model = Ability
+        fields = ['id','title',]
+        # exclude = ('title', )
+
+    def validate_title(self, value):
+        try:
+            if not Ability.objects.filter(title=value).exists():
+                return value
+            raise serializers.ValidationError("incorrect value instance found")
+        except ValueError:
+            raise serializers.ValidationError("incorrect value should be string")
+
+
+
+
+
+class MajorDetailSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = Major
+        fields = '__all__'
+
+
+class MajorSerilizer(serializers.ModelSerializer):
+    title = serializers.CharField(allow_blank=False, allow_null=False,required=True)
+    # user = serializers.CharField(required=False)
+
+    class Meta:
+        model = Major
+        fields = ['id','title',]
+        # exclude = ('title', )
+
+    def validate_title(self, value):
+        try:
+            if not Major.objects.filter(title=value).exists():
+                return value
+            raise serializers.ValidationError("incorrect value instance found")
+        except ValueError:
+            raise serializers.ValidationError("incorrect value should be string")
+
+
+
+
+class UniversityDetailSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = University
+        fields = '__all__'
+
+
+class UniversitySerilizer(serializers.ModelSerializer):
+    title = serializers.CharField(allow_blank=False, allow_null=False,required=True)
+    # user = serializers.CharField(required=False)
+
+    class Meta:
+        model = University
+        fields = ['id','title',]
+        # exclude = ('title', )
+
+    def validate_title(self, value):
+        try:
+            if not University.objects.filter(title=value).exists():
+                return value
+            raise serializers.ValidationError("incorrect value instance found")
+        except ValueError:
+            raise serializers.ValidationError("incorrect value should be string")
+
+
+
+class WorkingAreaDetailSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkingArea
+        fields = '__all__'
+
+
+class WorkingAreaSerilizer(serializers.ModelSerializer):
+    title = serializers.CharField(allow_blank=False, allow_null=False,required=True)
+    # user = serializers.CharField(required=False)
+
+    class Meta:
+        model = WorkingArea
+        fields = ['id','title',]
+        # exclude = ('title', )
+
+    def validate_title(self, value):
+        try:
+            if not WorkingArea.objects.filter(title=value).exists():
+                return value
+            raise serializers.ValidationError("incorrect value instance found")
+        except ValueError:
+            raise serializers.ValidationError("incorrect value should be string")

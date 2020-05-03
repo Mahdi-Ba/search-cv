@@ -5,10 +5,10 @@ from companies.models import Company
 
 
 @admin.register(Company)
-class WorkingAreaAdmin(admin.ModelAdmin):
+class CompanyAdmin(admin.ModelAdmin):
     list_display = ['title', 'en_title', 'owner', 'size', 'sort', 'status', 'user', 'updated_at']
     search_fields = ['title', 'en_title']
-    readonly_fields = ['user']
+    readonly_fields = ['user','owner']
     list_filter = ['status']
     autocomplete_fields = ['working_area']
 

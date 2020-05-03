@@ -16,6 +16,13 @@ class LanguageSkillSerilizer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class OrganizationSizeSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = OrganizationSize
+        fields = '__all__'
+
+
+
 class LanguageSerilizer(serializers.ModelSerializer):
     class Meta:
         model = Language

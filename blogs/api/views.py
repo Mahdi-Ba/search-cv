@@ -53,6 +53,12 @@ class TagsDetail(APIView):
         return Response(serializer.data)
 
 
+class ArticlesIndex(APIView):
+    def get(self, request, format=None):
+        articles = Article.objects.filter(index=True).all()
+        articles_serlizer = ArticleSerilizer(articles, many=True)
+        return Response(articles_serlizer.data)
+
 class Articles(APIView,PaginationHandlerMixin):
     pagination_class = BasicPagination
 

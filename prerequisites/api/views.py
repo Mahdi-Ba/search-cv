@@ -13,6 +13,12 @@ class GenderList(APIView):
         gender_serlizer = GenderSerilizer(gender, many=True)
         return Response(gender_serlizer.data)
 
+class SizeList(APIView):
+    def get(self, request, format=None):
+        orgsize = OrganizationSize.objects.all()
+        orgsize_serlizer = OrganizationSizeSerilizer(orgsize, many=True)
+        return Response(orgsize_serlizer.data)
+
 
 class LanguageSkillList(APIView):
     def get(self, request, format=None):

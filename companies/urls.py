@@ -16,6 +16,7 @@ urlpatterns = [
     path('detail/<int:pk>/<slug:slug>', views.CompanyDetail.as_view()),
     path('detail/me', views.MyCompany.as_view()),
     path('insert', views.MyCompany.as_view()),
+    path('update/<int:pk>', views.MyCompany.as_view()),
 
 ]
 

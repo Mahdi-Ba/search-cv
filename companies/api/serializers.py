@@ -30,8 +30,10 @@ class CompanyDetailSerilizer(serializers.ModelSerializer):
     working_area = WorkingAreaSerilizer(read_only=True, many=True)
     size = OrganizationSizeSerilizer(many=False, read_only=True)
     owner = serializers.CharField(read_only=True, source='user.last_name')
-    title = serializers.CharField(allow_null=False)
-    en_title = serializers.CharField(allow_null=False)
+    title = serializers.CharField(required=False)
+    address = serializers.CharField(allow_null=True)
+    phone = serializers.CharField(allow_null=True)
+    en_title = serializers.CharField(required=False)
     image = serializers.ImageField(required=False)
     description = serializers.CharField()
     working_area_Company = serializers.PrimaryKeyRelatedField(many=True, write_only=True, required=False, source='working_area', queryset=WorkingArea.objects.all())
@@ -50,7 +52,7 @@ class CompanyDetailSerilizer(serializers.ModelSerializer):
         model = Company
         fields = ['id', 'owner', 'size', 'working_area', 'title', 'en_title', 'image', 'image_alt', 'text', 'keywords',
                   'description', 'status', 'created_at', 'updated_at', 'index', 'sort', 'parent', 'slug',
-                  'working_area_Company', 'company_size', 'parent_Company'
+                  'working_area_Company', 'company_size', 'parent_Company','address','phone'
                   ]
 
     def get_slug(self, instance):
@@ -97,3 +99,16 @@ class CompanyDetailSerilizer(serializers.ModelSerializer):
         if working_area:
             company.working_area.set(working_area)
         return company
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.phone = validated_data.get('phone', instance.phone)
+        instance.address = validated_data.get('address', instance.address)
+        instance.en_title = validated_data.get('en_title', instance.en_title)
+        instance.parent = Company.objects.get(pk=validated_data.get('parent', instance.parent))
+        instance.size = OrganizationSize.objects.get(pk=validated_data.get('size', instance.size))
+        if validated_data.get('working_area', instance.working_area):
+            instance.working_area.set(validated_data.get('working_area', instance.working_area))
+        instance.image = validated_data.get('image', instance.image)
+        instance.save()
+        return instance

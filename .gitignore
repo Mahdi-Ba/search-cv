@@ -21,4 +21,4 @@ coverage.*
 !.isort.cfg
 
 talent/settings.py
-/media
+media/

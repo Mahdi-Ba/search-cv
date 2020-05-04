@@ -1,7 +1,14 @@
 from django.contrib import admin
 
 # Register your models here.
-from companies.models import Company
+from companies.models import Company, Status
+
+
+@admin.register(Status)
+class StatusAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    search_fields = ['title']
+
 
 
 @admin.register(Company)

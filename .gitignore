@@ -15,7 +15,6 @@ MANIFEST
 coverage.*
 .vscode/
 /.vscode/
-
 !.gitignore
 !.travis.yml
 !.isort.cfg

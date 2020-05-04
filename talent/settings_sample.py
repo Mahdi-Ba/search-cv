@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'django_json_widget',
     'blogs',
     'prerequisites',
-    'companies'
+    'companies',
+    'resumes.apps.ResumesConfig'
 
 ]
 AUTH_USER_MODEL = 'users.User'

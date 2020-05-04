@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'blogs',
     'prerequisites',
     'companies',
-    'resumes.apps.ResumesConfig'
+    'resumes.apps.ResumesConfig',
+    'advertises.apps.AdvertisesConfig'
 
 ]
 AUTH_USER_MODEL = 'users.User'

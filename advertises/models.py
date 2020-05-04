@@ -4,6 +4,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from jsonfield import JSONField
 
+from companies.models import Company
 from users.models import User
 
 class Status(models.Model):
@@ -12,9 +13,10 @@ class Status(models.Model):
     def __str__(self):
         return self.title
 
-class Resume(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='adminuser')
-    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='userresume')
+class advertise(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='useradvertize')
+    company = models.ForeignKey(Company, on_delete=models.SET_NULL,blank=True, null=True,)
     text = models.TextField(blank=True, null=True)
     status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
     info = JSONField(null=True, blank=True)

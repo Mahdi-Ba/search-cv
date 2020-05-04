@@ -1,6 +1,6 @@
 from django.contrib import admin
 from elasticsearch import Elasticsearch
-from resumes.models import Status, Resume
+from .models import Status, advertise
 from django_json_widget.widgets import JSONEditorWidget
 from jsonfield import JSONField
 
@@ -11,14 +11,9 @@ class StatusAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
-
-
-
-
-
-@admin.register(Resume)
-class AbilityAdmin(admin.ModelAdmin):
-    list_display = ['user', 'owner', 'status','created_at','updated_at']
+@admin.register(advertise)
+class AdvertiseAdmin(admin.ModelAdmin):
+    list_display = ['user', 'owner', 'company', 'status', 'created_at', 'updated_at']
     search_fields = ['user', 'owner']
     readonly_fields = ['user']
     list_filter = ['status']
@@ -26,6 +21,7 @@ class AbilityAdmin(admin.ModelAdmin):
     formfield_overrides = {
         JSONField: {'widget': JSONEditorWidget},
     }
+    autocomplete_fields = ['company']
 
     def get_actions(self, request):
         actions = super().get_actions(request)
@@ -38,14 +34,14 @@ class AbilityAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
         elastic_data = obj.info
         if obj.status != None:
-            elastic_data["status"] = {"id": obj.status.id,"title": obj.status.title}
+            elastic_data["status"] = {"id": obj.status.id, "title": obj.status.title}
         elastic_host = {"host": "localhost", "port": 9200}
         es = Elasticsearch(hosts=[elastic_host])
-        es.index(index='resume', doc_type='person', id=obj.id, body=elastic_data)
+        es.index(index='advertises', doc_type='advertise', id=obj.id, body=elastic_data)
         # book_result_query = es.search(index='books', doc_type='book', body={'query': {'match': {'author': 'sina'}}})
+
     def delete_model(self, request, obj):
         elastic_host = {"host": "localhost", "port": 9200}
         es = Elasticsearch(hosts=[elastic_host])
-        es.delete(index='resume', doc_type='person', id=obj.id)
+        es.delete(index='advertises', doc_type='advertise', id=obj.id)
         super().delete_model(request, obj)
-

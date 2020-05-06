@@ -13,7 +13,9 @@ class Status(models.Model):
     def __str__(self):
         return self.title
 
-class advertise(models.Model):
+class Advertise(models.Model):
+    title = models.CharField(blank=False,null=False,max_length=300,default=None)
+    en_title = models.CharField(blank=False,null=False,max_length=300,default=None)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True,related_name='useradvertize')
     company = models.ForeignKey(Company, on_delete=models.SET_NULL,blank=True, null=True,)

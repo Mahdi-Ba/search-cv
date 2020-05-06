@@ -1,6 +1,6 @@
 from django.contrib import admin
 from elasticsearch import Elasticsearch
-from .models import Status, advertise
+from .models import Status, Advertise
 from django_json_widget.widgets import JSONEditorWidget
 from jsonfield import JSONField
 
@@ -11,7 +11,7 @@ class StatusAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
-@admin.register(advertise)
+@admin.register(Advertise)
 class AdvertiseAdmin(admin.ModelAdmin):
     list_display = ['user', 'owner', 'company', 'status', 'created_at', 'updated_at']
     search_fields = ['user', 'owner']

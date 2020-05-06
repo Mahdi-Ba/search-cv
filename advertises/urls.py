@@ -10,11 +10,11 @@ urlpatterns = [
     # TODO seach and weight
     # TODO Validation Schemma
     # path('search', views.ResumeList.as_view()),
-    path('list', views.ResumeList.as_view()),
-    path('detail/<int:pk>/<slug:slug>', views.ResumeDetail.as_view()),
-    path('detail/me', views.MyResume.as_view()),
-    path('insert', views.MyResume.as_view()),
-    path('update', views.MyResume.as_view()),
+    path('list', views.AdvertiseList.as_view()),
+    path('detail/<int:pk>/<slug:slug>', views.AdvertiseDetail.as_view()),
+    path('detail/me', views.MyAdvertise.as_view()),
+    path('insert', views.MyAdvertise.as_view()),
+    path('update/<int:pk>', views.MyAdvertise.as_view()),
 
 ]
 

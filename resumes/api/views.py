@@ -37,14 +37,17 @@ class MyResume(APIView):
         if request.data.get('info',False):
             valid = jsonschema.Draft7Validator(SCHMMA).is_valid(request.data['info'])
         if valid:
-            resume_model = Resume.objects.get(owner=request.user)
-            if resume_model != None:
+            if Resume.objects.filter(owner=request.user).exists():
+                resume_model = Resume.objects.get(owner=request.user)
                 resume = ResumeDetailSerilizer(resume_model, data=request.data)
                 if resume.is_valid():
                     resume.save()
                     self.saveElastic(resume.data)
                     return Response(resume.data, status=status.HTTP_200_OK)
                 return Response(resume.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({"status": False, "message": "bad request"},
+                                status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({"status": False, "message": "validation error request"},
                             status=status.HTTP_400_BAD_REQUEST)

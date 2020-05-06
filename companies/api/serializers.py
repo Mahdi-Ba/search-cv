@@ -31,13 +31,13 @@ class CompanyDetailSerilizer(serializers.ModelSerializer):
     size = OrganizationSizeSerilizer(many=False, read_only=True)
     owner = serializers.CharField(read_only=True, source='user.last_name')
     title = serializers.CharField(required=False)
-    address = serializers.CharField(allow_null=True)
-    phone = serializers.CharField(allow_null=True)
+    address = serializers.CharField(allow_null=True,required=False)
+    phone = serializers.CharField(allow_null=True,required=False)
     en_title = serializers.CharField(required=False)
     image = serializers.ImageField(required=False)
     description = serializers.CharField()
     working_area_Company = serializers.PrimaryKeyRelatedField(many=True, write_only=True, required=False, source='working_area', queryset=WorkingArea.objects.all())
-    company_size = serializers.IntegerField(write_only=True, source='size', required=True)
+    company_size = serializers.IntegerField(write_only=True, source='size', required=False)
     parent_Company = serializers.IntegerField(write_only=True, source='parent', required=False)
     image_alt = serializers.ReadOnlyField()
     keywords = serializers.ReadOnlyField()
@@ -91,7 +91,8 @@ class CompanyDetailSerilizer(serializers.ModelSerializer):
             raise serializers.ValidationError("incorrect value should be str")
 
     def create(self, validate_data):
-        validate_data['size'] = OrganizationSize.objects.get(pk=validate_data['size'])
+        if validate_data.get('size', False):
+          validate_data['size'] = OrganizationSize.objects.get(pk=validate_data['size'])
         if validate_data.get('parent',False):
              validate_data['parent'] = Company.objects.get(pk=validate_data['parent'])
         working_area = validate_data.pop('working_area', False)
@@ -105,9 +106,11 @@ class CompanyDetailSerilizer(serializers.ModelSerializer):
         instance.phone = validated_data.get('phone', instance.phone)
         instance.address = validated_data.get('address', instance.address)
         instance.en_title = validated_data.get('en_title', instance.en_title)
-        instance.parent = Company.objects.get(pk=validated_data.get('parent', instance.parent))
-        instance.size = OrganizationSize.objects.get(pk=validated_data.get('size', instance.size))
-        if validated_data.get('working_area', instance.working_area):
+        if validated_data.get('parent'):
+          instance.parent = Company.objects.get(pk=validated_data.get('parent', instance.parent))
+        if validated_data.get('size'):
+             instance.size = OrganizationSize.objects.get(pk=validated_data.get('size', instance.size))
+        if validated_data.get('working_area'):
             instance.working_area.set(validated_data.get('working_area', instance.working_area))
         instance.image = validated_data.get('image', instance.image)
         instance.save()

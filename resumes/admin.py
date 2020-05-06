@@ -17,7 +17,7 @@ class StatusAdmin(admin.ModelAdmin):
 
 
 @admin.register(Resume)
-class AbilityAdmin(admin.ModelAdmin):
+class ResumeAdmin(admin.ModelAdmin):
     list_display = ['user', 'owner', 'status','created_at','updated_at']
     search_fields = ['user', 'owner']
     readonly_fields = ['user']

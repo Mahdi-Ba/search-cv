@@ -278,6 +278,25 @@ class WorkingArea(models.Model):
     def __str__(self):
         return self.title
 
+class JobPosition(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    en_title = models.CharField(max_length=255, null=True, blank=True,unique=True)
+    text = RichTextUploadingField(blank=True, null=True)
+    status = models.ForeignKey(Status, on_delete=models.SET_NULL, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now_add=True)
+    sort = models.IntegerField(null=True, blank=True)
+    image_alt = models.CharField(max_length=255, null=True, blank=True)
+    image = models.ImageField(upload_to='job_position/', null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.updated_at = datetime.now()
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
 
 
 

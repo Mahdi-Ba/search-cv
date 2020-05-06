@@ -182,3 +182,27 @@ class WorkingAreaSerilizer(serializers.ModelSerializer):
             raise serializers.ValidationError("incorrect value instance found")
         except ValueError:
             raise serializers.ValidationError("incorrect value should be string")
+
+
+class JobPositionDetailSerilizer(serializers.ModelSerializer):
+    class Meta:
+        model = JobPosition
+        fields = '__all__'
+
+
+class JobPositionSerilizer(serializers.ModelSerializer):
+    title = serializers.CharField(allow_blank=False, allow_null=False,required=True)
+    # user = serializers.CharField(required=False)
+
+    class Meta:
+        model = JobPosition
+        fields = ['id','title',]
+        # exclude = ('title', )
+
+    def validate_title(self, value):
+        try:
+            if not JobPosition.objects.filter(title=value).exists():
+                return value
+            raise serializers.ValidationError("incorrect value instance found")
+        except ValueError:
+            raise serializers.ValidationError("incorrect value should be string")

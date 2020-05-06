@@ -35,6 +35,11 @@ urlpatterns = [
     path('workingarea/search', views.WorkingAreaList.as_view()),
     path('workingarea/<int:pk>', views.WorkingAreaList.as_view()),
 
+
+    path('position/insert', views.JobPositionStore.as_view()),
+    path('position/search', views.JobPositionList.as_view()),
+    path('position/<int:pk>', views.JobPositionList.as_view()),
+
     # path('category/detail/<int:pk>/<slug:slug>', views.CategoriesDetail.as_view()),
 
 ]

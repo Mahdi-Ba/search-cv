@@ -225,6 +225,36 @@ class WorkingAreaList(APIView):
 
 
 
+class JobPositionStore(APIView):
+    def post(self, request, format=None):
+        workingarea = JobPositionSerilizer(data=request.data)
+        if workingarea.is_valid():
+            workingarea.save(user=request.user)
+            return Response(workingarea.data, status=status.HTTP_200_OK)
+        return Response(workingarea.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class JobPositionList(APIView):
+    def post(self, request, format=None):
+        job_position = JobPosition.objects.filter(
+            Q(title__contains=request.data['item']) | Q(en_title__contains=request.data['item'])).all()[:14]
+        job_position_serlizer = JobPositionSerilizer(job_position, many=True)
+        return Response(job_position_serlizer.data)
+
+    def get(self,request,pk,format=None):
+        job_position = JobPosition.objects.get(pk=pk)
+        job_position_serlizer = JobPositionDetailSerilizer(job_position, many=False)
+        return Response(job_position_serlizer.data)
+
+
+
+
+
+
+
+
+
 
 
 

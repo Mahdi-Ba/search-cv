@@ -35,15 +35,15 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="Talento",
       default_version='v1',
-      description="Test description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
-      license=openapi.License(name="BSD License"),
+      description="Test api",
+      terms_of_service="jobteam.ir",
+      contact=openapi.Contact(email="baharimahdi93@gmail.com"),
+      license=openapi.License(name="Mahdi Bahari"),
    ),
    public=True,
-   permission_classes=(permissions.AllowAny,),
+   # permission_classes=(permissions.AllowAny,),
 )
 
 

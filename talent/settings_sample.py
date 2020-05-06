@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'prerequisites',
     'companies',
     'resumes.apps.ResumesConfig',
-    'advertises.apps.AdvertisesConfig'
+    'advertises.apps.AdvertisesConfig',
+    'drf_yasg',
 
 ]
 AUTH_USER_MODEL = 'users.User'

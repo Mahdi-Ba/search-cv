@@ -30,7 +30,19 @@ ALLOWED_HOSTS = ['www.talent.com', 'talent.com', '127.0.0.1','185.97.119.108']
 BASE_URL = "http://talent.com/"
 
 # Application definition
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        # 'Basic': {
+        #       'type': 'basic'
+        # },
+        'TALENT': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header e.x TALENT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2Vyb'
 
+        }
+    }
+}
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

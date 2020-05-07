@@ -7,7 +7,7 @@ from ..models import *
 
 
 class AdvertiseDetailSerilizer(serializers.ModelSerializer):
-    company = CompanySerilizer(many=False, read_only=True,required=False)
+    company = CompanySerilizer(many=False, read_only=True,required=False,write_only=False)
     slug = serializers.SerializerMethodField(source='owner')
     owner = serializers.CharField(read_only=True, source='owner.last_name')
     text = serializers.CharField(max_length=1024)

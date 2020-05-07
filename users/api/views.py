@@ -38,6 +38,8 @@ class UserListView(generics.ListAPIView):
 
 @permission_classes((AllowAny,))
 class NewPasswd(APIView):
+
+
     def post(self, request):
         import kavenegar
         import json

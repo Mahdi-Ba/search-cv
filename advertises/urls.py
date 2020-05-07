@@ -12,9 +12,13 @@ urlpatterns = [
     # path('search', views.ResumeList.as_view()),
     path('list', views.AdvertiseList.as_view()),
     path('detail/<int:pk>/<slug:slug>', views.AdvertiseDetail.as_view()),
+
+
     path('detail/me', views.MyAdvertise.as_view()),
-    path('insert', views.MyAdvertise.as_view()),
-    path('update/<int:pk>', views.MyAdvertise.as_view()),
+
+
+    path('insert', views.AdvertiseInsert.as_view()),
+    path('update/<int:pk>', views.AdvertiseUpdate.as_view()),
 
 ]
 

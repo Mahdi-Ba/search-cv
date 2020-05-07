@@ -38,7 +38,7 @@ SWAGGER_SETTINGS = {
         'TALENT': {
             'type': 'apiKey',
             'name': 'Authorization',
-            'in': 'header e.x TALENT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2Vyb'
+            'in': 'TALENT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJ1c2Vyb'
 
         }
     }

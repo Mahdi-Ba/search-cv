@@ -50,14 +50,14 @@ class NewPasswd(APIView):
         new_pass = random.randint(11111, 99999)
 
         params = {
-            'receptor': request.POST['mobile'],
+            'receptor': request.data['mobile'],
             'message': "تلنتو " + "\n" + "رمز عبور: " + str(new_pass),
         }
 
         response = api.sms_send(params)
 
         params = {
-            'receptor': request.POST['mobile'],
+            'receptor': request.data['mobile'],
             'template': 'test',
             'token': new_pass,
             'type': 'sms',
@@ -66,14 +66,14 @@ class NewPasswd(APIView):
         response = api.verify_lookup(params)
 
         # sms = SmsNotify()
-        # status =sms.send(text=new_pass, receiver_number=request.POST['mobile'])
-        if User.objects.filter(mobile=request.POST['mobile']):
-            u = User.objects.get(mobile=request.POST['mobile'])
+        # status =sms.send(text=new_pass, receiver_number=request.data['mobile'])
+        if User.objects.filter(mobile=request.data['mobile']):
+            u = User.objects.get(mobile=request.data['mobile'])
             u.set_password(new_pass)
             u.expire_pass = True
             u.save()
         else:
-            user = User.objects.create_user(request.POST['mobile'], new_pass)
+            user = User.objects.create_user(request.data['mobile'], new_pass)
             re = user.save()
         content = {"status": True}
 
@@ -84,8 +84,8 @@ class NewPasswd(APIView):
 @permission_classes((AllowAny,))
 class WhichPasswd(APIView):
     def post(self, request):
-        if User.objects.filter(mobile=request.POST['mobile']):
-            u = User.objects.get(mobile=request.POST['mobile'])
+        if User.objects.filter(mobile=request.data['mobile']):
+            u = User.objects.get(mobile=request.data['mobile'])
             return Response({"status": True, "otp": u.expire_pass})
         else:
             return Response({"status": True, "otp": True})

@@ -40,32 +40,45 @@ class MixinElastic:
 class MyAdvertise(APIView, MixinElastic):
 
 
+    @swagger_auto_schema(
+        operation_description="get advertises",
+        responses={200: AdvertiseDetailSerilizer(many=True)}
+    )
     def get(self, request, format=None):
         advertise = Advertise.objects.filter(owner=request.user).all()
         advertise_serlizer = AdvertiseDetailSerilizer(advertise, many=True)
         return Response(advertise_serlizer.data)
 
+    @swagger_auto_schema(
+        operation_description="get advertises",
+        responses={200:openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+           'items': openapi.Schema(
+              type=openapi.TYPE_STRING
+           )}
+    )})
     def delete(self, request, format=None):
-        advertise = Advertise.objects.filter(owner=request.user).first()
-        self.deleteElastic(advertise)
-        advertise.delete()
-        return Response("delete")
+        advertise = Advertise.objects.filter(owner=request.user).all()
+        for item in advertise:
+            self.deleteElastic(item)
+            item.delete()
+        return Response({"items":"deleted"},status=status.HTTP_200_OK)
 
 
 class AdvertiseUpdate(APIView, MixinElastic):
     @swagger_auto_schema(
         operation_description="""
-    کمپانی ارسال نشود
-    info شامل تمام موارد میشود
-    در صورتی که میخواهید کمپانی NULL شود مقدار -1 ست شود
-    info تمامی مجدد اصلاح و ارسال گردد
-    مثال        
+برای ویرایش companyکمپانی ارسال نشود
+ درصورتی که title , en_title تغییر نکردند نیازی به ارسال نیست 
+  در صورتی که میخواهید کمپانی NULL شود zمقدار company_src = -1 ست شود 
+    تمامی info ها هر بار در صورت کوچک ترین تغییر ارسال گردد
 
                                  {
-                                    "title": "salam",
-                                    "en_title": "salam url",
+                                    "title": "تست",
+                                    "en_title": "test",
                                     "company_src": -1,
-                                    "text": "saladccfrffr",
+                                    "text": "text descriptio",
                                     "info": {
                                         "gender": {
                                             "id": 1,
@@ -84,7 +97,8 @@ class AdvertiseUpdate(APIView, MixinElastic):
                                         ]
                                 }
             """,
-        request_body=AdvertiseDetailSerilizer
+        request_body=AdvertiseDetailSerilizer,
+        responses={200: AdvertiseDetailSerilizer(many=False)}
     )
     def put(self, request, pk, format=None):
         valid = True
@@ -108,29 +122,6 @@ class AdvertiseUpdate(APIView, MixinElastic):
 
 
 class AdvertiseInsert(APIView, MixinElastic):
-    # IN_BODY = 'body'  #:
-    # IN_PATH = 'path'  #:
-    # IN_QUERY = 'query'  #:
-    # IN_FORM = 'formData'  #:
-    # IN_HEADER = 'header'  #:
-
-    # test_param = openapi.Parameter('frfrfr', openapi.IN_BODY, description="test manual param", type=openapi.TYPE_STRING)
-    # @swagger_auto_schema(operation_description='POST /articles/today/',manual_parameters=[test_param],)
-    # @swagger_auto_schema(
-    #     operation_description="apiview post description override",
-    #     request_body=openapi.Schema(
-    #         type=openapi.TYPE_OBJECT,
-    #         required=['title','en_title','text','info'],
-    #         properties={
-    #             'title': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'en_title': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'text': openapi.Schema(type=openapi.TYPE_STRING),
-    #             'company_src': openapi.Schema(type=openapi.TYPE_INTEGER),
-    #             'info': openapi.Schema(type=openapi.TYPE_OBJECT)
-    #         },
-    #     ),
-    #     security=[]
-    # )
     @swagger_auto_schema(
         operation_description="""
 کمپانی ارسال نشود
@@ -178,7 +169,12 @@ company_src ایدی کمپانی مورد نظر است
                             status=status.HTTP_400_BAD_REQUEST)
 
 
+
 class AdvertiseDetail(APIView):
+    @swagger_auto_schema(
+        operation_description="get advertise detail",
+        responses={200: AdvertiseDetailSerilizer(many=False)}
+    )
     def get(self, request, pk, slug, format=None):
         advertise = Advertise.objects.get(pk=pk)
         advertise_serlizer = AdvertiseDetailSerilizer(advertise)
@@ -188,6 +184,10 @@ class AdvertiseDetail(APIView):
 class AdvertiseList(APIView, PaginationHandlerMixin):
     pagination_class = BasicPagination
 
+    @swagger_auto_schema(
+        operation_description="get advertise pagination",
+        responses={200: AdvertiseDetailSerilizer(many=True)}
+    )
     def get(self, request):
         advertise = Advertise.objects.order_by('-updated_at').all()
         page = self.paginate_queryset(advertise)

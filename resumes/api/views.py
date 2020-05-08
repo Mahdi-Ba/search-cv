@@ -1,6 +1,5 @@
 import base64
 import uuid
-
 from django.core.files.base import ContentFile
 from django.db.models import Q
 from django.http import Http404
@@ -15,23 +14,73 @@ from ..models import *
 from rest_framework.pagination import PageNumberPagination
 from talent.pagination import PaginationHandlerMixin
 import jsonschema
+from drf_yasg.utils import *
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+
 class BasicPagination(PageNumberPagination):
     page_size_query_param = 'limit'
 
 
 
 class MyResume(APIView):
+    @swagger_auto_schema(
+        operation_description="get MyResume",
+        responses={200: ResumeDetailSerilizer(many=True)}
+    )
     def get(self, request, format=None):
-        resume = Resume.objects.get(owner=request.user)
-        resume_serlizer = ResumeDetailSerilizer(resume)
-        return Response(resume_serlizer.data)
+        if Resume.objects.filter(owner=request.user).exists():
+            resume = Resume.objects.get(owner=request.user)
+            resume_serlizer = ResumeDetailSerilizer(resume)
+            return Response(resume_serlizer.data)
+        else:
+            return Response({"status":False},status=status.HTTP_404_NOT_FOUND)
 
+    @swagger_auto_schema(
+        operation_description="delete",
+        responses={200:openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+           'items': openapi.Schema(
+              type=openapi.TYPE_STRING
+           )}
+    )})
     def delete(self,request,format=None):
         resume = Resume.objects.get(owner=request.user)
         self.deleteElastic(resume)
         resume.delete()
-        return Response("delete")
+        return Response({"items":"deleted"},status=status.HTTP_200_OK)
 
+    @swagger_auto_schema(
+            operation_description="""
+        مثال        
+                        {
+                            "text": "saladccfrffr",
+                            "info": {
+                                "gender": {
+                                    "id": 1,
+                                    "title": "woman"
+                                },
+                                "ability": [
+                                    {
+                                        "id": 1,
+                                        "title": "barber"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "title": "swimmer"
+                                    },
+                                  {
+                                        "id": 2,
+                                        "title": "runner"
+                                    }
+                                ]
+                            }
+                """,
+            request_body=ResumeDetailSerilizer,
+            responses={200: ResumeDetailSerilizer(many=True)}
+
+    )
     def put(self, request ,format=None):
         valid = True
         if request.data.get('info',False):
@@ -52,6 +101,34 @@ class MyResume(APIView):
             return Response({"status": False, "message": "validation error request"},
                             status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(
+            operation_description="""
+    مثال        
+
+                       {
+                            "text": "sala",
+                            "info": {
+                                "gender": {
+                                    "id": 1,
+                                    "title": "woman"
+                                },
+                                "ability": [
+                                    {
+                                        "id": 1,
+                                        "title": "barber"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "title": "swimmer"
+                                    }
+                                ]
+                            }
+                        }
+            """,
+            request_body=ResumeDetailSerilizer,
+            responses = {200: ResumeDetailSerilizer(many=True)}
+
+    )
     def post(self, request, format=None):
         # valid  = jsonschema.Draft7Validator(SCHMMA).is_valid(request.data['info'])
         # if valid == True:
@@ -82,6 +159,10 @@ class MyResume(APIView):
 
 
 class ResumeDetail(APIView):
+    @swagger_auto_schema(
+        operation_description="get advertise detail",
+        responses={200: ResumeDetailSerilizer(many=False)}
+    )
     def get(self, request,pk,slug, format=None):
         resume = Resume.objects.get(pk=pk)
         resume_serlizer = ResumeDetailSerilizer(resume)
@@ -92,6 +173,10 @@ class ResumeDetail(APIView):
 class ResumeList(APIView,PaginationHandlerMixin):
     pagination_class = BasicPagination
 
+    @swagger_auto_schema(
+        operation_description="get advertise pagination",
+        responses={200: ResumeDetailSerilizer(many=True)}
+    )
     def get(self, request, format=None):
         resume = Resume.objects.order_by('-updated_at').all()
         page = self.paginate_queryset(resume)

@@ -50,7 +50,7 @@ class MyAdvertise(APIView, MixinElastic):
         return Response(advertise_serlizer.data)
 
     @swagger_auto_schema(
-        operation_description="get advertises",
+        operation_description="delete",
         responses={200:openapi.Schema(
         type=openapi.TYPE_OBJECT,
         properties={
@@ -152,7 +152,8 @@ company_src ایدی کمپانی مورد نظر است
                         }
                     }
         """,
-        request_body=AdvertiseDetailSerilizer
+        request_body=AdvertiseDetailSerilizer,
+        responses={200: AdvertiseDetailSerilizer(many=True)}
     )
     def post(self, request, format=None):
         # valid  = jsonschema.Draft7Validator(SCHMMA).is_valid(request.data['info'])

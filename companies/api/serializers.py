@@ -1,5 +1,7 @@
 from django.utils.text import slugify
 from rest_framework import serializers
+from rest_framework.validators import UniqueValidator
+
 from prerequisites.api.serializers import WorkingAreaSerilizer, OrganizationSizeSerilizer
 from prerequisites.models import WorkingArea, OrganizationSize
 from ..models import *
@@ -30,10 +32,10 @@ class CompanyDetailSerilizer(serializers.ModelSerializer):
     working_area = WorkingAreaSerilizer(read_only=True, many=True)
     size = OrganizationSizeSerilizer(many=False, read_only=True)
     owner = serializers.CharField(read_only=True, source='user.last_name')
-    title = serializers.CharField(required=False)
+    title = serializers.CharField(required=False,validators=[UniqueValidator(queryset=Company.objects.all())])
     address = serializers.CharField(allow_null=True,required=False)
     phone = serializers.CharField(allow_null=True,required=False)
-    en_title = serializers.CharField(required=False)
+    en_title = serializers.CharField(required=False,validators=[UniqueValidator(queryset=Company.objects.all())])
     image = serializers.ImageField(required=False)
     description = serializers.CharField()
     working_area_Company = serializers.PrimaryKeyRelatedField(many=True, write_only=True, required=False, source='working_area', queryset=WorkingArea.objects.all())
@@ -74,21 +76,7 @@ class CompanyDetailSerilizer(serializers.ModelSerializer):
         except ValueError:
             raise serializers.ValidationError("incorrect value should be integer")
 
-    def validate_title(self, value):
-        try:
-            if not Company.objects.filter(title=value).exists():
-                return value
-            raise serializers.ValidationError("incorrect value Duplicate")
-        except ValueError:
-            raise serializers.ValidationError("incorrect value should be str")
 
-    def validate_en_title(self, value):
-        try:
-            if not Company.objects.filter(en_title=value).exists():
-                return value
-            raise serializers.ValidationError("incorrect value Duplicate")
-        except ValueError:
-            raise serializers.ValidationError("incorrect value should be str")
 
     def create(self, validate_data):
         if validate_data.get('size', False):

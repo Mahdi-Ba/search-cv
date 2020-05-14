@@ -24,7 +24,7 @@ SECRET_KEY = '4*fc4#h*=i85fw06v(icph6cs(y)65^z@cug)e8c)_p6)^x4uf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.talent.com', 'talent.com', '127.0.0.1']
+ALLOWED_HOSTS = ['www.talent.com', 'talent.com', '127.0.0.1','localhost']
 
 
 BASE_URL = "http://talent.com/"
